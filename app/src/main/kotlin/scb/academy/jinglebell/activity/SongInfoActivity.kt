@@ -20,8 +20,8 @@ class SongInfoActivity : AppCompatActivity() {
         private const val DATE_FORMAT_ISO_8601 = "YYYY-MM-dd'T'HH:mm:ss'Z'"
         private const val DATE_FORMAT_DATE_ONLY = "YYYY-MM-dd"
 
-        fun startActivity(context: Context, song: Song? = null) =
-            context.startActivity(Intent(context, SongInfoActivity::class.java))
+        fun startActivity(context: Context, intent: Intent) =
+            context.startActivity(intent)
     }
 
     private lateinit var ivSongArtWork: ImageView

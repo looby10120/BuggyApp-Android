@@ -1,5 +1,8 @@
 package scb.academy.jinglebell.adapter
 
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -7,11 +10,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import scb.academy.jinglebell.R
+import scb.academy.jinglebell.activity.SongInfoActivity
 import scb.academy.jinglebell.extension.setImageUrl
 import scb.academy.jinglebell.vo.Song
 
 class SongAdapter(
+
     private var _songs: List<Song> = listOf(),
+    private var context: Context,
     private val onClick: (Song) -> Unit = {
 
     }
@@ -23,14 +29,14 @@ class SongAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SongItemViewHolder(parent)
 
     override fun onBindViewHolder(holder: SongItemViewHolder, position: Int) {
-        holder.bind(_songs[position], onClick)
+        holder.bind(_songs[position], context, onClick)
     }
 
     override fun getItemCount(): Int {
         return if (songs.count() == 0) {
             0
         } else {
-            songs.count() + 1
+            songs.count()
         }
     }
 
@@ -50,13 +56,16 @@ class SongItemViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val tvSongArtist: TextView = itemView.findViewById(R.id.tv_song_artist)
     private val tvSongPrice: TextView = itemView.findViewById(R.id.tv_song_price)
 
-    fun bind(song: Song, onClick: (Song) -> Unit = {}) {
+    fun bind(song: Song, context: Context, onClick: (Song) -> Unit = {}) {
         tvSongName.text = song.name
         tvSongArtist.text = song.artistName
         tvSongPrice.text = "${song.price} ${song.priceCurrency}"
         ivSongArtwork.setImageUrl(song.artworkUrl)
+        val intent = Intent(context, SongInfoActivity::class.java)
 
-        itemView.setOnClickListener { onClick(song) }
+        itemView.setOnClickListener { onClick(song)
+            intent.putExtra("song", song)
+            SongInfoActivity.startActivity(context, intent)}
     }
 
 }

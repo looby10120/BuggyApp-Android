@@ -44,7 +44,7 @@ class SongListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         rvSongs = view.findViewById(R.id.rv_rooms)
         rvSongs.apply {
-            adapter = SongAdapter()
+            adapter = SongAdapter(context = this.context)
                 .also { songAdapter = it }
             layoutManager = LinearLayoutManager(context)
             itemAnimator = DefaultItemAnimator()
