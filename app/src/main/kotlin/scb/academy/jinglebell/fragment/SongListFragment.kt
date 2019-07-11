@@ -1,5 +1,6 @@
 package scb.academy.jinglebell.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,16 +16,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import scb.academy.jinglebell.R
 import scb.academy.jinglebell.adapter.SongAdapter
+import scb.academy.jinglebell.service.ApiManager
 import scb.academy.jinglebell.vo.SongSearchResult
 
 class SongListFragment : Fragment() {
 
     private lateinit var rvSongs: RecyclerView
     private lateinit var songAdapter: SongAdapter
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_song_list, container, false)
-    }
 
     private val songListCallback = object : Callback<SongSearchResult> {
         override fun onFailure(call: Call<SongSearchResult>, t: Throwable) {
@@ -33,7 +31,13 @@ class SongListFragment : Fragment() {
 
         override fun onResponse(call: Call<SongSearchResult>, response: Response<SongSearchResult>) {
             Log.i("networking", "${response.body()}")
+            val songs = response.body() ?: return
+            songAdapter.submitList(songs.results)
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_song_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,6 +55,7 @@ class SongListFragment : Fragment() {
     }
 
     private fun loadSongs()  {
+        ApiManager.artistService.songs().enqueue(songListCallback)
 
     }
 }

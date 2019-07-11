@@ -12,7 +12,9 @@ import scb.academy.jinglebell.vo.Song
 
 class SongAdapter(
     private var _songs: List<Song> = listOf(),
-    private val onClick: (Song) -> Unit = {}
+    private val onClick: (Song) -> Unit = {
+
+    }
 ) : RecyclerView.Adapter<SongItemViewHolder>() {
 
     val songs: List<Song>

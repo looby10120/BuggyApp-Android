@@ -1,5 +1,6 @@
 package scb.academy.jinglebell.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
             R.id.action_song -> {
                 if (currentFragment is SongListFragment) return
                 SongListFragment()
+
             }
 
             R.id.action_profile -> { Fragment() }
