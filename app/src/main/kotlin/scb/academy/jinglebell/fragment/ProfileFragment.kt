@@ -24,11 +24,14 @@ import scb.academy.jinglebell.vo.Country
 import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.KeyEvent.KEYCODE_DPAD_CENTER
 import android.view.KeyEvent
+import android.content.Intent
+import scb.academy.jinglebell.activity.ProfileActivity
 
 
 class ProfileFragment : Fragment() {
 
     private lateinit var nickname: EditText
+//    private lateinit var intent: Intent
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,9 +49,22 @@ class ProfileFragment : Fragment() {
 
             nickname.setOnKeyListener(object : View.OnKeyListener {
                 override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-                    if (event.action == KEYCODE_ENTER) {
+                    if (event.action == KeyEvent.ACTION_DOWN && keyCode == KEYCODE_ENTER) {
+
+//                        val intent = Intent(activity, ProfileFragment::class.java).also {
+//                            it.putExtra("EdiTtEXTvALUE", nickname.text.toString())
+//
+//                            startActivity(it)
+//                        }
+
+                        val intent = Intent(v.context, ProfileActivity::class.java)
+                        intent.putExtra("EdiTtEXTvALUE", nickname.text.toString())
+                        v.context.startActivity(intent)
+
+
+//                        startActivity(intent)
 //                        Log.d("name", "hello")
-                        Toast.makeText(context, "hello", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, nickname.text.toString(), Toast.LENGTH_SHORT).show()
                         return true
                     } else {
                         return false
